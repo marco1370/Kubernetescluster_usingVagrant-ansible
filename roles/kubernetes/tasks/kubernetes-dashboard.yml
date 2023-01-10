@@ -1,0 +1,20 @@
+---
+- name: Download Kubernetes Dashboard yaml manifest
+  get_url:
+    url: https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.5/aio/deploy/recommended.yaml
+    dest: /tmp/dashboard.yml
+
+- name: Deployment of the Kubernetes dashboard
+  shell: kubectl apply -f /tmp/dashboard.yml
+  args:
+    executable: /bin/bash
+
+- name: Download Kubernetes dashboard-user yaml manifest
+  get_url:
+    url: https://raw.githubusercontent.com/adieperi/local-kubernetes/add-kubernetes-dashboard/roles/kubernetes/files/dashboard-user.yml
+    dest: /tmp/dashboard-user.yml
+
+- name: Creating the user for the dashboard
+  shell: kubectl apply -f /tmp/dashboard-user.yml
+  args:
+    executable: /bin/bash
